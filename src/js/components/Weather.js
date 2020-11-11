@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Axios from 'axios';
 import {
     Jumbotron,
-    Button,
     Container,
     Row,
     Col,
@@ -10,13 +9,13 @@ import {
     Nav,
     Tabs,
 } from 'react-bootstrap/';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line, Doughnut, Bubble } from 'react-chartjs-2';
 import tempConvert from '../helpers/temperatureConverter';
 import timeConvert from '../helpers/dateTimeHelper';
 export default function Weather() {
     const [weatherData, updateWeatherData] = useState(null);
     const endPoint = `http://localhost:8000/getWeather`;
-    const [key, setKey] = useState(null);
+    const [key, setKey] = useState('Bar');
     let init = async () => {
         await Axios({
             method: 'get',
@@ -30,42 +29,86 @@ export default function Weather() {
                 console.log('error', e);
             });
     };
+    const data = {
+        labels: [],
+        datasets: [
+            {
+                label: 'Temperature',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [],
+            },
+        ],
+    };
 
-    let renderChart = (weatherData) => {
-        const data = {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Temperature',
-                    backgroundColor: 'rgba(75,192,192,1)',
-                    borderColor: 'rgba(0,0,0,1)',
-                    borderWidth: 2,
-                    data: [],
-                },
-            ],
-        };
-
-        for (let index = 0; index < weatherData.list.length; index++) {
-            const weatherStamp = weatherData.list[index];
-            data.labels.push(timeConvert(weatherStamp.dt));
-            data.datasets[0].data.push(tempConvert(weatherStamp.main.temp));
+    // populate data object
+    (() => {
+        if (weatherData) {
+            for (let index = 0; index < weatherData.list.length; index++) {
+                const weatherStamp = weatherData.list[index];
+                data.labels.push(timeConvert(weatherStamp.dt).getMinutes());
+                data.datasets[0].data.push(tempConvert(weatherStamp.main.temp));
+            }
         }
-
+    })();
+    //
+    let renderBarChart = () => {
         return (
             <Bar
                 data={data}
                 options={{
                     title: {
                         display: true,
-                        text: 'Average temperature',
+                        text: 'Temperature',
                         fontSize: 20,
                     },
                     legend: {
                         display: true,
-                        position: 'right',
+                        position: 'bottom',
                     },
                 }}
             />
+        );
+    };
+
+    let renderLineChart = () => {
+        return (
+            <Line
+                data={data}
+                options={{
+                    title: {
+                        display: true,
+                        text:
+                            'Temperature (fahrenheit) over a small period of time',
+                        fontSize: 20,
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    },
+                }}
+            />
+        );
+    };
+
+    let renderBubbleChart = () => {
+        return (
+            <Bubble
+                data={data}
+                options={{
+                    title: {
+                        display: true,
+                        text:
+                            'Temperature (fahrenheit) over a small period of time',
+                        fontSize: 20,
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    },
+                }}
+            ></Bubble>
         );
     };
 
@@ -77,13 +120,37 @@ export default function Weather() {
                         <Container>
                             <Row>
                                 <Col xs={12}>
-                                    <h1> Data Visualization</h1>
+                                    <h2> Data Visualization</h2>
                                 </Col>
                                 <Col xs={12}>
-                                    <p>{weatherData.city.name}</p>
+                                    <p>
+                                        City:{' '}
+                                        <strong>{weatherData.city.name}</strong>
+                                    </p>
                                 </Col>
                                 <Col xs={12}>
-                                    <p>{weatherData.city.country}</p>
+                                    <p>
+                                        Country:{' '}
+                                        <strong>
+                                            {weatherData.city.country}
+                                        </strong>
+                                    </p>
+                                </Col>
+
+                                <Col xs={12}>
+                                    {timeConvert(
+                                        weatherData.list[0].dt
+                                    ).toUTCString()}
+                                </Col>
+                                <Col>
+                                    {timeConvert(
+                                        weatherData.list[0].dt
+                                    ).getHours()}
+                                    :
+                                    {timeConvert(
+                                        weatherData.list[0].dt
+                                    ).getMinutes()}{' '}
+                                    AM, central time
                                 </Col>
                             </Row>
                             <Tabs
@@ -92,13 +159,13 @@ export default function Weather() {
                                 onSelect={(k) => setKey(k)}
                             >
                                 <Tab eventKey="Bar" title="Bar">
-                                    <Row>{renderChart(weatherData)}</Row>
+                                    <Row>{renderBarChart()}</Row>
                                 </Tab>
-                                <Tab eventKey="pie" title="Pie">
-                                    <p>lorem</p>
+                                <Tab eventKey="Line" title="Line">
+                                    {renderLineChart()}
                                 </Tab>
-                                <Tab eventKey="Other" title="Other" disabled>
-                                    <p>lorem</p>
+                                <Tab eventKey="Bubble" title="Bubble">
+                                    {renderBubbleChart()}
                                 </Tab>
                             </Tabs>
                         </Container>

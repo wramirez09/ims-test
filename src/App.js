@@ -5,6 +5,8 @@ import './App.scss';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Home from './js/pages/Home';
+import Contact from './js/pages/Contact';
+import Product from './js/pages/Product';
 
 function App() {
     const menu = [
@@ -13,16 +15,12 @@ function App() {
             text: 'Home',
         },
         {
-            link: '/products/',
+            link: '/product/',
             text: 'Products',
         },
         {
             link: '/contact/',
             text: 'Contact us',
-        },
-        {
-            link: '/weather/',
-            text: 'Weather',
         },
     ];
     return (
@@ -58,6 +56,12 @@ function App() {
                 <Switch>
                     <Route exact={true} path="/">
                         <Home />
+                    </Route>
+                    <Route path="/contact">
+                        <Contact />
+                    </Route>
+                    <Route path="/product">
+                        <Product></Product>
                     </Route>
                 </Switch>
             </Router>

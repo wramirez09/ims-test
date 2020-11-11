@@ -69,7 +69,7 @@ export default function Weather() {
                     },
                     legend: {
                         display: true,
-                        position: 'bottom',
+                        position: 'left',
                     },
                 }}
             />
@@ -107,7 +107,7 @@ export default function Weather() {
                     },
                     legend: {
                         display: true,
-                        position: 'bottom',
+                        position: 'left',
                     },
                 }}
             />
@@ -127,7 +127,7 @@ export default function Weather() {
                     },
                     legend: {
                         display: true,
-                        position: 'bottom',
+                        position: 'left',
                     },
                 }}
             ></Bubble>

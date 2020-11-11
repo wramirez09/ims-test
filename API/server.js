@@ -1,8 +1,10 @@
 require('dotenv').config()
 // const fetch = require('node-fetch')
 // global.fetch = fetch
+const cors = require('cors')
 const express = require('express')
 const app = express()
+app.use(cors())
 const bodyParser = require('body-parser')
 // create application/json parser
 // const { Sequelize } = require('sequelize')

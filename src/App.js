@@ -15,17 +15,17 @@ function App() {
         text: 'Home',
     },
     {
-        link: '/about/',
-        text: 'About',
-    },
-    {
-        link: '/work/',
-        text: 'Work',
+        link: '/products/',
+        text: 'Products',
     },
     {
         link: '/contact/',
-        text: 'Contact',
+        text: 'Contact us',
     },
+    {
+      link: '/weather/',
+      text: 'Weather',
+  },
 ]
   return (
     <Fragment>
@@ -37,7 +37,7 @@ function App() {
             variant="dark"
             sticky="top"
         >
-            <Navbar.Brand href="#home">Will Ramirez</Navbar.Brand>
+            <Navbar.Brand href="#home">Widgets Unlimited, Inc</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">

@@ -1,6 +1,7 @@
 
-const bodyParser = require('body-parser')
-const jsonParser = bodyParser.json()
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const GetWeatherController = require("../controllers/GetWeatherController")
 
 module.exports = function (app) {
     app.get('/', jsonParser, async (req, res) => {
@@ -24,6 +25,13 @@ module.exports = function (app) {
               res.status(406).send('Not Acceptable')
             }
           })
+    });
+    app.get('/getWeather', jsonParser, async (req, res) => {
+        
+        const getWeatherController = new GetWeatherController();
+        const weather = await getWeatherController.init();
+        console.log(weather.data)
+        res.status(200).json(weather.data)
     })
 
 }

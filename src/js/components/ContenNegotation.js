@@ -11,7 +11,6 @@ export default function ContenNegotation() {
     const printMessage = (div, message)=>{
 
         if(div){
-            console.log(div, message)
             div.innerHTML = message.data.message ? message.data.message : message.data
         }
         
@@ -29,7 +28,6 @@ export default function ContenNegotation() {
             .then((response) => {
                 const MESSAGE_BOX_SELECTOR = ".message-holder";
                 const messageContainer = document.querySelector(MESSAGE_BOX_SELECTOR);
-                console.log("response", response)
                 printMessage(messageContainer, response)
                 
             })

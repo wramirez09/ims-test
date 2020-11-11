@@ -1,13 +1,15 @@
 .jumbotron {
 
     h1 {
-
+        @include poly-fluid-sizing('font-size', (576px: 18px, 768px: 24px, 992px: 38px));
         color: red;
         text-align: center  ;
     }
 
     h2{
+        @include poly-fluid-sizing('font-size', (576px: 16px, 768px: 18px, 992px: 26px));
         margin-bottom: 45px;
+        
     }
     .btn {
         margin-bottom: 20px;

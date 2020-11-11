@@ -1,15 +1,14 @@
-import React from 'react'
-import ContenNegotation from "../components/ContenNegotation"
+import React, { Fragment } from 'react';
+import ContenNegotation from '../components/ContenNegotation';
+import Weather from '../components/Weather';
 
-const Home = ()=> {
- 
-
-
-
+const Home = () => {
     return (
-        <ContenNegotation></ContenNegotation>
-    )
-}
+        <Fragment>
+            <ContenNegotation></ContenNegotation>
+            <Weather></Weather>
+        </Fragment>
+    );
+};
 
-
-export default Home
+export default Home;

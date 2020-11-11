@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Axios from 'axios';
 import {
     Jumbotron,
+    Button,
     Container,
     Row,
     Col,
@@ -16,6 +17,8 @@ export default function Weather() {
     const [weatherData, updateWeatherData] = useState(null);
     const endPoint = `http://localhost:8000/getWeather`;
     const [key, setKey] = useState('Bar');
+
+    // pull in mock data from api
     let init = async () => {
         await Axios({
             method: 'get',
@@ -29,6 +32,7 @@ export default function Weather() {
                 console.log('error', e);
             });
     };
+    // define data model
     const data = {
         labels: [],
         datasets: [
@@ -52,7 +56,7 @@ export default function Weather() {
             }
         }
     })();
-    //
+    // render charts
     let renderBarChart = () => {
         return (
             <Bar
@@ -73,10 +77,28 @@ export default function Weather() {
     };
 
     let renderLineChart = () => {
+        {
+            /** TO DO: need to fix loopimg animation */
+        }
         return (
             <Line
                 data={data}
                 options={{
+                    animation: {
+                        tension: {
+                            duration: 1000,
+                            easing: 'linear',
+                            from: 1,
+                            to: 0,
+                            loop: true,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                        },
+                    },
                     title: {
                         display: true,
                         text:
@@ -164,7 +186,8 @@ export default function Weather() {
                                 <Tab eventKey="Line" title="Line">
                                     {renderLineChart()}
                                 </Tab>
-                                <Tab eventKey="Bubble" title="Bubble">
+                                <Tab eventKey="Bubble" title="Bubble" disabled>
+                                    {/** TO DO: fix this chart not rendering data */}
                                     {renderBubbleChart()}
                                 </Tab>
                             </Tabs>

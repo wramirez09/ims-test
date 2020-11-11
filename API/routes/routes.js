@@ -12,7 +12,7 @@ module.exports = function (app) {
             },
           
             'text/html': function () {
-              res.send('<h3>hello IMS html response</h3>')
+              res.send('<h3 style="color:red; text-decoration:undeline; font-stlye:italic;">hello IMS html response</h3>')
             },
           
             'application/json': function () {
